@@ -30,7 +30,7 @@
         if (dateRange) {
            //////////////First Graph//////////////
           MP.api.events('freakout', 'disconnected','sanity-check-freakout', dateRange).done(function(resultsOne) {
-            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">First Graph Name</h1>' ).css({'padding': '10px'}).appendTo('body');
+            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">Freakout Disconnected Sanity Check</h1>' ).css({'padding': '10px'}).appendTo('body');
             
             $('<div class = "graphs"> </div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
                 chartType: 'line',
@@ -46,7 +46,7 @@
           
           //////////////Second Graph//////////////
           MP.api.segment('error-modal-shown', 'errorType', dateRange).done(function(resultsTwo) {
-            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)"> Second Graph Name</h1>' ).css({'padding': '10px'}).appendTo('body');
+            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">Errors</h1>' ).css({'padding': '10px'}).appendTo('body');
               
             $('<div class = "graphs"></div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
               chartType: 'line',
