@@ -43,6 +43,22 @@
               data: resultsOne
             });
           });
+          
+          //////////////Second Graph//////////////
+          MP.api.segment('error-modal-shown', 'errorType', dateRange).done(function(resultsTwo) {
+            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)"> Second Graph Name</h1>' ).css({'padding': '10px'}).appendTo('body');
+              
+            $('<div class = "graphs"></div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
+              chartType: 'line',
+              data: resultsTwo
+            });
+              
+            $('<div class = "graphs"></div>').css({'width':'100%', 'float':'left', 'padding': '15px'}).appendTo('body').MPTable({
+              showPercentages: true,
+              firstColHeader: 'Error Type',
+              data: resultsTwo
+            }); 
+          });  
         };
       };
       dateSelect.on('change', runQuery);
