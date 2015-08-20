@@ -8,43 +8,47 @@
   </head>
   <body class="mixpanel-platform-body">
     <div class="mixpanel-platform-section">
-      <div id="eventSelect" style="float: left;"></div>
-      <div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>
-      <div id="propSelect" style="float: left;"></div>
-      <div id="dateSelect" style="float: right;"></div>
+       <div class="titles">
+        <h1 style="font-size: 18px; color: rgb(95,105,131)">Broadcaster Report</h1>
+        <p style="font-size: 13px; color: rgb(95,105,131)">Please select Broadcaster and a date range. </p><br/>
+      </div>
+      
+      <div id="mpselect" style="float: left;"></div>
+      <div id="dateSelect" style="float: right;"></div><br/><br/><br>
       <div style="clear: both;"></div>
-      <div id="graph"></div>
     </div>
-    <div id="table"></div>
     <script>
-      var eventSelect = $('#eventSelect').MPEventSelect();
-      var propSelect  = $('#propSelect').MPPropertySelect();
+    MP.api.ready(function() {
       var dateSelect  = $('#dateSelect').MPDatepicker();
-      var eventGraph  = $('#graph').MPChart({chartType: 'line'});
-      var eventTable  = $('#table').MPTable({
-        showPercentages: true,
-        firstColHeader: 'Event'
-      });
 
       var runQuery = function() {
-        var eventName = eventSelect.MPEventSelect('value'),
-            propName  = propSelect.MPPropertySelect('value'),
-            dateRange = dateSelect.MPDatepicker('value');
-
-        if (eventName) {
-          MP.api.segment(eventName, propName, dateRange).done(function(results) {
-            eventGraph.MPChart('setData', results);
-            eventTable.MPTable('setData', results);
+        //clear out previous content
+        $("div").remove(".graphs");
+        $("h1").remove(".graphs");
+        
+        //obtain dates
+        var dateRange = dateSelect.MPDatepicker('value');
+        
+        if (dateRange) {
+           //////////////First Graph//////////////
+          MP.api.events('freakout', 'disconnected','sanity-check-freakout', dateRange).done(function(resultsOne) {
+            $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">: First Graph Name</h1>' ).css({'padding': '10px'}).appendTo('body');
+            
+            $('<div class = "graphs"> </div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
+                chartType: 'line',
+                data: resultsOne
+            });
+            
+             $('<div class = "graphs"></div>').css({'width':'100%', 'float':'left', 'padding': '15px'}).appendTo('body').MPTable({
+              showPercentages: true,
+              firstColHeader: 'Event',
+              data: resultsOne
+            });
           });
-        }
+        };
       };
-      eventSelect.on('change', function(e, eventName) {
-        propSelect.MPPropertySelect('setEvent', eventName);
-        $("#by").show();
-        runQuery();
-      });
-      propSelect.on('change', runQuery);
       dateSelect.on('change', runQuery);
+    });
     </script>
   </body>
 </html>
