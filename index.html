@@ -25,11 +25,15 @@
         $("h1").remove(".graphs");
         
         //obtain dates
-        var dateRange = dateSelect.MPDatepicker('value');
+        //var dateRange = dateSelect.MPDatepicker('value');
         
-        if (dateRange) {
+        //if (dateRange) {
            //////////////First Graph//////////////
-          MP.api.events('freakout', 'disconnected','sanity-check-freakout', dateRange).done(function(resultsOne) {
+           var params = {
+              from: moment().subtract(30, 'days'),    // the earliest date you'd like to include in the query
+              to: moment(), 
+           }
+          MP.api.events('freakout', 'disconnected','sanity-check-freakout', params).done(function(resultsOne) {
             $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">Freakout Disconnected Sanity Check</h1>' ).css({'padding': '10px'}).appendTo('body');
             
             $('<div class = "graphs"> </div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
@@ -45,7 +49,11 @@
           });
           
           //////////////Second Graph//////////////
-          MP.api.segment('error-modal-shown', 'errorType', dateRange).done(function(resultsTwo) {
+          var params = {
+              from: moment().subtract(30, 'days'),    // the earliest date you'd like to include in the query
+              to: moment(), 
+           }
+          MP.api.segment('error-modal-shown', 'errorType', params).done(function(resultsTwo) {
             $('<h1 class = "graphs" style="font-size: 15px; color: rgb(95,105,131)">Errors</h1>' ).css({'padding': '10px'}).appendTo('body');
               
             $('<div class = "graphs"></div>').css({'width':'100%', 'float':'left', 'padding': '10px'}).appendTo('body').MPChart({
@@ -60,7 +68,6 @@
             }); 
           });  
         };
-      };
       dateSelect.on('change', runQuery);
     });
     </script>
